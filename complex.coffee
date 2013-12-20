@@ -9,6 +9,7 @@ class LiveJS.User
 
 class LiveJS.fileExplorer
   user: null
+  fileName: undefined
   constructor: (@user)->
   userExists: =>
     if @user
@@ -17,8 +18,8 @@ class LiveJS.fileExplorer
     false
 
   execute: =>
-    reult= @userExists()
-    if reult
+    result= @userExists()
+    if result
       @showSaveCall()
     else
       @showCreateUser()
@@ -39,7 +40,21 @@ class LiveJS.fileExplorer
   toggle: =>
     $("#filedialog").fadeToggle();
     $("#mycan").fadeToggle();
+    @events()
       
   showCreateUser: =>
-    @user = new LiveJS.User "Ramu"
-      
+    name = prompt "Enter a Name for yourSelf, you can access all your saved files from this name only"
+    @user = new LiveJS.User name
+
+  saveFile: ()=>
+      if @fileName is undefined
+        @fileName = $("#namebar .saveas").val()
+      $.ajax
+        url: "gears/saveFile.php"
+        method: "POST"
+        data: {fileName: @fileName, str: editor.getValue()}
+        success: ->
+          alert 'Saved Veere'
+
+  events: =>
+    $("#save-saveas").on("click", @saveFile)

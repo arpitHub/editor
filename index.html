@@ -30,8 +30,8 @@
 
     #namebar {
         height: 50px;
-        -webkit-box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,150);
-        box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,150);
+        -webkit-box-shadow:inset 1px 1px 3px 3px rgba(150,150,150, 0.5);
+        box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,0.5);
         border-bottom-right-radius: 7px;
         border-top-right-radius: 7px;
     }
@@ -39,16 +39,23 @@
     #namebar #save-saveas{
         height: 100%;
         width: 10%;
-        background: green;
+        background: #b4e391; /* Old browsers */
+        background: -moz-linear-gradient(top,  #b4e391 0%, #61c419 50%, #b4e391 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b4e391), color-stop(50%,#61c419), color-stop(100%,#b4e391)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #b4e391 0%,#61c419 50%,#b4e391 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #b4e391 0%,#61c419 50%,#b4e391 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #b4e391 0%,#61c419 50%,#b4e391 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #b4e391 0%,#61c419 50%,#b4e391 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#b4e391',GradientType=0 ); /* IE6-9 */
         float: right;
         text-align: center;
         border-bottom-right-radius: 7px;
         border-top-right-radius: 7px;
-    }
-
-    #namebar #save-saveas a {
-        margin-right: auto;
-        margin-left: auto;
+        background-image: url("./res/save.png");
+        background-size: 45px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        background-position: center;
     }
 
     #namebar input{

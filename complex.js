@@ -28,8 +28,12 @@ LiveJS.User = (function() {
 LiveJS.fileExplorer = (function() {
   fileExplorer.prototype.user = null;
 
+  fileExplorer.prototype.fileName = void 0;
+
   function fileExplorer(user) {
     this.user = user;
+    this.events = __bind(this.events, this);
+    this.saveFile = __bind(this.saveFile, this);
     this.showCreateUser = __bind(this.showCreateUser, this);
     this.toggle = __bind(this.toggle, this);
     this.getFolder = __bind(this.getFolder, this);
@@ -48,9 +52,9 @@ LiveJS.fileExplorer = (function() {
   };
 
   fileExplorer.prototype.execute = function() {
-    var reult;
-    reult = this.userExists();
-    if (reult) {
+    var result;
+    result = this.userExists();
+    if (result) {
       return this.showSaveCall();
     } else {
       return this.showCreateUser();
@@ -82,11 +86,35 @@ LiveJS.fileExplorer = (function() {
 
   fileExplorer.prototype.toggle = function() {
     $("#filedialog").fadeToggle();
-    return $("#mycan").fadeToggle();
+    $("#mycan").fadeToggle();
+    return this.events();
   };
 
   fileExplorer.prototype.showCreateUser = function() {
-    return this.user = new LiveJS.User("Ramu");
+    var name;
+    name = prompt("Enter a Name for yourSelf, you can access all your saved files from this name only");
+    return this.user = new LiveJS.User(name);
+  };
+
+  fileExplorer.prototype.saveFile = function() {
+    if (this.fileName === void 0) {
+      this.fileName = $("#namebar .saveas").val();
+    }
+    return $.ajax({
+      url: "gears/saveFile.php",
+      method: "POST",
+      data: {
+        fileName: this.fileName,
+        str: editor.getValue()
+      },
+      success: function() {
+        return alert('Saved Veere');
+      }
+    });
+  };
+
+  fileExplorer.prototype.events = function() {
+    return $("#save-saveas").on("click", this.saveFile);
   };
 
   return fileExplorer;

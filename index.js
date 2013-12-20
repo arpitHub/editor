@@ -1,8 +1,8 @@
 
 init = function() {
-    var editor, fileExplorer, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-    fileExplorer = new LiveJS.fileExplorer;
-    
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    window.fileExplorer = new LiveJS.fileExplorer;
+    window.editor = undefined;
     editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
     editor.getSession().setMode("ace/mode/javascript");
@@ -23,10 +23,6 @@ init = function() {
             },
             readOnly: true
     });
-
-    events = function() {
-        
-    }
 }
 
 $(document).ready(init);

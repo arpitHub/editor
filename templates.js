@@ -8,7 +8,7 @@ window.template.get = function(name) {
 template.list["files"] = [
     "<div id='namebar'>",
         "<input class='saveas' />",
-        "<div id='save-saveas'><a href='#'>Save</a></div>",
+        "<div id='save-saveas'></div>",
     "</div>",
     "<div id='dir-list'>",
         "<ul>",

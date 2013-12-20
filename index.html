@@ -1,0 +1,83 @@
+<body>
+    <style type="text/css" media="screen">
+    body {
+    }
+    
+    #editor { 
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 30%;
+    }
+    #mycan{
+        float: right;
+        width: 70%;    
+        border: 1px solid black;
+        height: 100%;
+    }
+
+    #filedialog {
+        
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        -webkit-box-shadow: 0 3px 3px 5px rgba(0,0,0,0);
+        box-shadow: 0 3px 3px 5px rgba(0,0,0,0);
+    }
+
+    #namebar {
+        height: 50px;
+        -webkit-box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,150);
+        box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,150);
+        border-bottom-right-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+
+    #namebar #save-saveas{
+        height: 100%;
+        width: 10%;
+        background: green;
+        float: right;
+        text-align: center;
+        border-bottom-right-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+
+    #namebar #save-saveas a {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #namebar input{
+        height: 70%;
+        width: 85%;
+        border: none;
+        font-size: 22;
+        margin: 8px 0px 0px 8px;
+    }
+
+    #namebar input:focus{
+        outline: none;
+    }
+
+    </style>
+    <script src="/jquery-2.js"></script>
+    <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/tmpl.min.js"></script>
+    <script src="/templates.js"></script>
+    <script src="/complex.js"></script>
+    <script src="/index.js"></script>
+
+    <pre id="editor">
+    </pre>
+    
+    <canvas id="mycan">
+    </canvas>
+
+    <div id="filedialog" hidden>
+    </div>
+    
+</body>    

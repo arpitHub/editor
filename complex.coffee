@@ -8,6 +8,7 @@ class LiveJS.User
   setName: (@name)=>
 
 class LiveJS.fileExplorer
+  noToggle: false
   user: null
   fileName: undefined
   constructor: (@user)->
@@ -19,13 +20,16 @@ class LiveJS.fileExplorer
 
   execute: =>
     result= @userExists()
-    if result
-      @showSaveCall()
-    else
+    if result is false
       @showCreateUser()
+    @showSaveCall()
     
   showSaveCall: =>
-    @getFolder @user.getName()
+    if @fileName is undefined
+      @getFolder @user.getName()
+    else
+      @noToggle = true
+      @saveFile()
 
   getFolder: (name)=>
     $.ajax
@@ -33,7 +37,7 @@ class LiveJS.fileExplorer
       method: "GET"
       data: {user: @user.getName()}
       success: (list) =>
-        list = tmpl(template.get('files'), { files: list})
+        list = tmpl(template.get('files'), { files: list.split("{%}")})
         $("#filedialog").html list
         @toggle()
 
@@ -46,15 +50,20 @@ class LiveJS.fileExplorer
     name = prompt "Enter a Name for yourSelf, you can access all your saved files from this name only"
     @user = new LiveJS.User name
 
-  saveFile: ()=>
+  saveFile: (e)=>
       if @fileName is undefined
         @fileName = $("#namebar .saveas").val()
       $.ajax
         url: "gears/saveFile.php"
         method: "POST"
-        data: {fileName: @fileName, str: editor.getValue()}
-        success: ->
-          alert 'Saved Veere'
+        data: {fileName: @fileName, str: editor.getValue(), user: @user.getName()}
+        success: =>
+          alert 'File Saved'
+          if not @noToggle
+            @toggle()
 
   events: =>
     $("#save-saveas").on("click", @saveFile)
+    $(".saveas").keyup (e)=> 
+        if e.type == "keyup" and e.keyCode == 13
+          @saveFile(e);

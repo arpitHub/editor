@@ -26,6 +26,8 @@ LiveJS.User = (function() {
 })();
 
 LiveJS.fileExplorer = (function() {
+  fileExplorer.prototype.noToggle = false;
+
   fileExplorer.prototype.user = null;
 
   fileExplorer.prototype.fileName = void 0;
@@ -54,15 +56,19 @@ LiveJS.fileExplorer = (function() {
   fileExplorer.prototype.execute = function() {
     var result;
     result = this.userExists();
-    if (result) {
-      return this.showSaveCall();
-    } else {
-      return this.showCreateUser();
+    if (result === false) {
+      this.showCreateUser();
     }
+    return this.showSaveCall();
   };
 
   fileExplorer.prototype.showSaveCall = function() {
-    return this.getFolder(this.user.getName());
+    if (this.fileName === void 0) {
+      return this.getFolder(this.user.getName());
+    } else {
+      this.noToggle = true;
+      return this.saveFile();
+    }
   };
 
   fileExplorer.prototype.getFolder = function(name) {
@@ -75,7 +81,7 @@ LiveJS.fileExplorer = (function() {
       success: (function(_this) {
         return function(list) {
           list = tmpl(template.get('files'), {
-            files: list
+            files: list.split("{%}")
           });
           $("#filedialog").html(list);
           return _this.toggle();
@@ -96,7 +102,7 @@ LiveJS.fileExplorer = (function() {
     return this.user = new LiveJS.User(name);
   };
 
-  fileExplorer.prototype.saveFile = function() {
+  fileExplorer.prototype.saveFile = function(e) {
     if (this.fileName === void 0) {
       this.fileName = $("#namebar .saveas").val();
     }
@@ -105,16 +111,29 @@ LiveJS.fileExplorer = (function() {
       method: "POST",
       data: {
         fileName: this.fileName,
-        str: editor.getValue()
+        str: editor.getValue(),
+        user: this.user.getName()
       },
-      success: function() {
-        return alert('Saved Veere');
-      }
+      success: (function(_this) {
+        return function() {
+          alert('File Saved');
+          if (!_this.noToggle) {
+            return _this.toggle();
+          }
+        };
+      })(this)
     });
   };
 
   fileExplorer.prototype.events = function() {
-    return $("#save-saveas").on("click", this.saveFile);
+    $("#save-saveas").on("click", this.saveFile);
+    return $(".saveas").keyup((function(_this) {
+      return function(e) {
+        if (e.type === "keyup" && e.keyCode === 13) {
+          return _this.saveFile(e);
+        }
+      };
+    })(this));
   };
 
   return fileExplorer;

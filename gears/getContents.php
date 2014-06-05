@@ -21,7 +21,7 @@ class getContents {
     function getFolderContents() {
         $path = $this->directory();
         $dirList = scandir($path);
-        echo json_encode($this->sohniKardoList($dirList));
+        echo implode("{%}", $this->sohniKardoList($dirList));
     }
 
     function directory() {

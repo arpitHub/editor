@@ -1,10 +1,5 @@
 from BaseHTTPServer import BaseHTTPRequestHandler
-import threading
-import argparse
-import cgi
 from pprint import pprint
-import json
-import urllib
 import os
 from Router import *
 from Controllers import *
@@ -18,10 +13,14 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         self.execute(routeDetails)
 
     def execute(self, actions):
-        print actions
-        constructor = globals()[actions['controller']]
-        obj = constructor(self, self.root)
-        result = getattr(obj, actions['action'])(actions['location'], actions)
+        try:
+            constructor = globals()[actions['controller']]
+            obj = constructor(self, self.root)
+            result = getattr(obj, actions['action'])(actions['location'], actions)
+        except:
+            print "Error in : "
+            print actions
+            print "-----------"
 
         
     # def do_OPTIONS(self):

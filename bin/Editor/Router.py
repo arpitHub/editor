@@ -1,29 +1,23 @@
 from pprint import pprint
 import re, os
-import routes
+from routes import Mapper
 
 class Router:
     routes = {
-        "/": [ "home", "Views/index.html"],
-        "/js/{file}": ["javascript", "js/"]
+        "/":          ["home", "Views/index.html", "HomePage", "index"],
+        "/js/{file:.*}": ["javascript", "js/", "HomePage", "jsAction"],
+        "/ace-builds/{file:.*}": ["javascript", "ace-builds/", "HomePage", "jsAction"]
     }
 
     root = os.path.dirname(os.path.abspath(__file__)) + "/../../"
-    mapper = routes.Mapper()
+    mapper = Mapper()
 
     def __init__(self):
         for route in self.routes:
-            self.mapper.connect(self.routes[route][0], )
+            details = self.routes[route]
+            self.mapper.connect(details[0], route, controller=details[2], action=details[3], location=details[1])
 
 
-    def getFileContent(self, path):
-        for route in self.routes.keys():
-            print route
-            print path
-            result = re.match(r""+ route +"", path)
-            if result is not None:
-                print result.group(0)
-                return self.root + self.routes[route][0]
-
-            print "-----------------"
-
+    def getRouteDetails(self, path):
+        result = self.mapper.match(path)
+        return result

@@ -7,36 +7,23 @@ import json
 import urllib
 import os
 from Router import *
+from Controllers import *
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
-
-    indexFIle = "index.html"
-    routes = {
-        "/": ["Views/index.html", 'text/html'],
-        "/index.html": ["index.html", 'text/html'],
-        "/js": [ "js/" ]
-    }
     router = Router()
 
     def do_GET(self):
-        directory = os.path.dirname(os.path.abspath(__file__))
-        content = ""
-        ctype = 'text/html'
-        if self.path in self.routes :
-            # path = directory + "/../../" + self.routes[self.path][0]
-            path = self.router.getFileContent(self.path)
-            with open(path, 'r') as content_file:
-                content = content_file.read()
-            ctype = self.routes[self.path][1]
-        else:
-            content = "<h2>No Route Found</h2>"
-            ctype = 'text/html'
-        self.send_response(200)
-        self.send_header('Content-Type', ctype)
-        self.end_headers()
+        self.root = os.path.dirname(os.path.abspath(__file__)) + "/../../"
+        routeDetails = self.router.getRouteDetails(self.path)
+        self.execute(routeDetails)
 
-        self.wfile.write(content)
+    def execute(self, actions):
+        print actions
+        constructor = globals()[actions['controller']]
+        obj = constructor(self, self.root)
+        result = getattr(obj, actions['action'])(actions['location'], actions)
 
+        
     # def do_OPTIONS(self):
     #     self.CommonFunc()
     # def do_POST(self):

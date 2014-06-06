@@ -22,6 +22,7 @@ init = function() {
             },
             readOnly: true
     });
+    new Editor.Application;
 }
 
 $(document).ready(init);

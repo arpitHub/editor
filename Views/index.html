@@ -74,21 +74,45 @@
         outline: none;
     }
 
+    #command-box {
+        width: 100%;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        -webkit-box-shadow:inset 1px 1px 3px 3px rgba(150,150,150, 0.5);
+        box-shadow:inset 1px 1px 3px 3px rgba(150,150,150,0.5);
+        border-bottom-right-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+
+    #codewrap {
+        width: 100%;
+        background: gray;
+        margin: 0;
+        position: absolute;
+        top: 50;
+        bottom: 0;
+        left: 0;
+        right: 0;   
+    }
+
     </style>
     <script src="js/jquery-2.js"></script>
+    <script src="js/underscore-min.js"></script>
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/tmpl.min.js"></script>
     <script src="js/templates.js"></script>
     <script src="js/complex.js"></script>
     <script src="js/index.js"></script>
 
-    <pre id="editor">
-    </pre>
-
-    <div id="filedialog" hidden>
+    <div id="menu"></div>
+    <div id="codewrap">
+        <pre id="editor">
+        </pre>    
     </div>
-
-    <div id="lightBox">
-    </div>
+    
     
 </body>    

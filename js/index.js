@@ -1,7 +1,6 @@
 
 init = function() {
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-    window.fileExplorer = new LiveJS.fileExplorer;
     window.editor = undefined;
     editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
